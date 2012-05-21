@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<style type="text/css">
+pre {
+	border: 1px solid #fe8;
+	background: #ffc;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>jpp - A Simple Java Preprocessor for Ant</title>
+</head>
+<body>
+	<h1>jpp - A Simple Java Preprocessor for Ant</h1>
+	<h2>About jpp</h2>
+	<p>jpp is an Ant task for preprocessing text files, especially Java
+		source files.</p>
+	<p>Its main purpose is to allow "conditional compilation". Other
+		features commonly provided by text preprocessors, like inclusion of
+		files or macro expansion, are not supported.</p>
+	<p>Ant provides the jpp task with properties that control the
+		preprocessing of the files. Using conditional directives parts of the
+		text file can be excluded in the resulting file.</p>
+	<h2>Syntax</h2>
+	<pre>
+#if [!]propertyName 
+	...text 1...
+[#else
+	...text 2...]
+#endif
+</pre>
+	<p>
+		<em>('[ ... ]' encloses optional parts).</em>
+	</p>
+	<h2>Preprocessing</h2>
+	<p>jpp analyses a file's text line-by-line and writes the result to
+		the destination file.</p>
+	<p>Here the details of the preprocessing:</p>
+	<ul>
+		<li>When the <code>#if</code> condition is true the lines
+			following the <code>#if</code> (i.e. "<code>...text 1...</code>") are
+			copied to the destination file, otherwise the lines following the <code>#else</code>
+			(i.e. "<code>...text 2...</code>") are copied.
+		</li>
+		<li>All lines containing a jpp directive (<code>#if</code>, <code>#else</code>,
+			<code>#endif</code>) are removed.
+		</li>
+		<li>All lines outside an <code>#if...#endif</code> block are
+			copied to the destination file.
+		</li>
+		<li><code>#if</code> ... <code>#endif</code> blocks can be
+			nested, i.e. they can appear in the "if" and "else" areas of an outer
+			<code>#if</code> ... <code>#endif</code> block.</li>
+	</ul>
+	<p>
+		An
+		<code>#if</code>
+		condition is true if either
+	</p>
+	<ul>
+		<li>a single name is specified (e.g. "<code>#if FOO</code>") and
+			the property with that name holds the value <code>true</code>, or
+		</li>
+		<li>a negate operator <code>!</code> and a name is given (e.g. "<code>#if
+				!FOO</code>") and no property with that name is defined or the property
+			does not hold the value <code>true</code>.
+		</li>
+	</ul>
+	<h2>Using jpp directives in Java source files</h2>
+	<p>When using jpp directives in Java source files the directives
+		must be included in Java comments to avoid compile errors.</p>
+	<p>You may either use single line comments, e.g. as in:</p>
+	<pre>
+//#if FOO
+	... regular Java text
+//#endif
+</pre>
+	or block comments like:
+	<pre>
+/*#if FOO
+	... text in comment ...
+#endif*/
+</pre>
+	<p>When using the block comment approach the text inside the
+		directive block will not be compiled in the original file. However
+		when the condition is satisfied the resulting file will contain the
+		text without the wrapping comment, i.e. it will be compiled.
+	<h2>Examples</h2>
+	<pre>
+/*#if FOO
+	... text in comment ...
+#else*/
+	... text outside comment ...
+//#endif
+</pre>
+	<pre>
+//#if !FOO
+... text to be excluded when FOO is true ...
+//#endif
+</pre>
+	<h2>Ant integration</h2>
+	<pre>
+&lt;project name="YourProjectName" ... &gt;
+
+    &lt;!-- Register the jpp ant task --&gt;
+    &lt;taskdef resource="jpp.xml" classpath="lib/jpp/1.0.1/jpp-1.0.1.jar" /&gt;
+    ...
+    
+    &lt;!-- defined properties to control the preprocessing --&gt;
+    &lt;property name="NO_FOO" value="true" /&gt;
+    &lt;property name="WITH_BLA" value="true" /&gt;
+    ...
+    
+    &lt;!-- call the jpp tool inside a target --&gt;
+    &lt;target name="preprocess"&gt;
+        &lt;jpp destdir="src-gen" readonly="true" verbose="false"&gt;
+            &lt;fileset dir="src/" includes="**/*.java" excludesfile="config/excludes.txt" /&gt;
+            &lt;fileset dir="src/" includesfile="config/includes.txt" /&gt;
+        &lt;/jpp&gt;
+    &lt;/target&gt;
+    ...
+        
+&lt;/project&gt;
+</pre>
+	<h2>License</h2>
+	jpp is distributed under a BSD license of
+	<a href="http://www.abego-software.de/index.html">abego Software</a>.
+	
+	<h2>Links</h2>
+	Sources: <a href="https://github.com/abego/jpp">https://github.com/abego/jpp</a>
+</body>
+</html>

@@ -1,0 +1,16 @@
+jpp - A Simple Java Preprocessor for Ant
+=============================================================================
+
+https://github.com/abego/jpp
+
+Udo Borkowski, ub at abego org
+abego Software GmbH, Germany
+
+
+CHANGES
+=============================================================================
+
+-----------------------------------------------------------------------------
+Release 1.0.1 (2012-05-21)
+ 
+Initial release

@@ -1,0 +1,5 @@
+bla
+//#if(FOO)
+foo
+//#endif
+bla

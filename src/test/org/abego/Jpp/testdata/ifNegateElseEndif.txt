@@ -1,0 +1,7 @@
+bla
+/*#if(!FOO)
+foo
+#else*/
+bar
+//#endif
+bla

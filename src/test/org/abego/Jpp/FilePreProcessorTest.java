@@ -174,6 +174,40 @@ public class FilePreProcessorTest {
 
 		helper("ifElseEndif-noParentheses.txt", "bla\nfoo\nbla\n", properties);
 	}
+	
+	@Test
+	public void test_nestedIfNegateEndif() throws URISyntaxException, IOException {
+		Hashtable<String, String> properties = new Hashtable<String, String>();
+
+		helper("nestedIfNegateEndif.txt", "bla\nnot foo\nnot bar\nbla\n", properties);
+		
+		properties.put("BAR", "true");
+		helper("nestedIfNegateEndif.txt", "bla\nnot foo\nbla\n", properties);
+		
+		properties.put("FOO", "true");
+		helper("nestedIfNegateEndif.txt", "bla\nbla\n", properties);
+
+		properties.put("BAR", "false");
+		helper("nestedIfNegateEndif.txt", "bla\nbla\n", properties);
+	}
+	
+	@Test
+	public void test_nestedIfElseEndif() throws URISyntaxException, IOException {
+		Hashtable<String, String> properties = new Hashtable<String, String>();
+
+		helper("nestedIfElseEndif.txt", "bla\n!foo\n!foo !bar\n!foo end\nbla\n", properties);
+		
+		properties.put("BAR", "true");
+		helper("nestedIfElseEndif.txt", "bla\n!foo\n!foo bar\n!foo end\nbla\n", properties);
+		
+		properties.put("FOO", "true");
+		helper("nestedIfElseEndif.txt", "bla\nfoo\nfoo bar\nfoo end\nbla\n", properties);
+
+		properties.put("BAR", "false");
+		helper("nestedIfElseEndif.txt", "bla\nfoo\nfoo !bar\nfoo end\nbla\n", properties);
+	}
+	
+	
 
 	private void helper(String srcFileName, String expectedResult,
 			Hashtable<String, String> properties) throws URISyntaxException,

@@ -113,11 +113,11 @@ public class FilePreProcessor {
 
 					// process ifPart
 					int ifLineNo = lineNo;
-					parse(isTrue, true);
+					parse(copyLines && isTrue, true);
 					boolean hasElsePart = isElseLine();
 					if (hasElsePart) {
 						int elseLineNo = lineNo;
-						parse(!isTrue, true);
+						parse(copyLines && !isTrue, true);
 
 						if (!isEndifLine()) {
 							throw new RuntimeException(String.format(

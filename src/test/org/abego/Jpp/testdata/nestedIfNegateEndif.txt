@@ -1,0 +1,8 @@
+bla
+//#if(!FOO)
+not foo
+//#if(!BAR)
+not bar
+//#endif
+//#endif
+bla

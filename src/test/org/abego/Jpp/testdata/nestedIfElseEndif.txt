@@ -1,0 +1,19 @@
+bla
+//#if(FOO)
+foo
+//#if(BAR)
+foo bar
+//#else
+foo !bar
+//#endif
+foo end
+//#else
+!foo
+//#if(BAR)
+!foo bar
+//#else
+!foo !bar
+//#endif
+!foo end
+//#endif
+bla

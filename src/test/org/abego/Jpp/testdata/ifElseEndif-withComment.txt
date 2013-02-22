@@ -1,0 +1,7 @@
+bla
+/*#if(FOO) # some comment
+foo
+#else*/
+bar
+//#endif
+bla

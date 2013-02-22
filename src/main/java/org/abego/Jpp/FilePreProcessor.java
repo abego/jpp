@@ -50,7 +50,7 @@ public class FilePreProcessor {
 	// Parser ============================================================
 		
 	private static final String directivePrefixRE = "\\s*(?:(?:/\\*)|(?://))?#";
-	private static final String directiveSuffixRE = "\\s*(?:\\*/)?\\s*";
+	private static final String directiveSuffixRE = "\\s*(?:#.*)?(?:\\*/)?\\s*";
 	private static final String idRE = "[a-zA-Z_][a-zA-Z0-9_]*";
 	private static final String conditionRE = "(\\!)?(" + idRE + ")";
 

@@ -208,6 +208,14 @@ public class FilePreProcessorTest {
 	}
 	
 	
+	@Test
+	public void test_ifElseEndif_WithComment_If() throws URISyntaxException, IOException {
+		Hashtable<String, String> properties = new Hashtable<String, String>();
+		properties.put("FOO", "true");
+
+		helper("ifElseEndif-withComment.txt", "bla\nfoo\nbla\n", properties);
+	}
+
 
 	private void helper(String srcFileName, String expectedResult,
 			Hashtable<String, String> properties) throws URISyntaxException,

@@ -1,132 +1,88 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<style type="text/css">
-pre {
-	border: 1px solid #fe8;
-	background: #ffc;
-}
-</style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>jpp - A Simple Java Preprocessor for Ant</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>jpp - A Simple Java Preprocessor for Ant</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+html {color: #333333; line-height: 1.5; font-family: Helvetica, arial, sans-serif;} pre {background-color: #f8f8f8;border: 1px solid #ddd;}
+  </style>
 </head>
 <body>
-	<h1>jpp - A Simple Java Preprocessor for Ant</h1>
-	<h2>About jpp</h2>
-	<p>jpp is an Ant task for preprocessing text files, especially Java
-		source files.</p>
-	<p>Its main purpose is to allow "conditional compilation". Other
-		features commonly provided by text preprocessors, like inclusion of
-		files or macro expansion, are not supported.</p>
-	<p>Ant provides the jpp task with properties that control the
-		preprocessing of the files. Using conditional directives parts of the
-		text file can be excluded in the resulting file.</p>
-	<h2>Syntax</h2>
-	<pre>
-#if [!]propertyName [# any text, e.g. comments etc.]
-	...text 1...
+<h1 id="jpp---a-simple-java-preprocessor-for-ant">jpp - A Simple Java Preprocessor for Ant</h1>
+<h2 id="about-jpp">About jpp</h2>
+<p>jpp is an Ant task for preprocessing text files, especially Java source files.</p>
+<p>Its main purpose is to allow &#8220;conditional compilation&#8221;. Other features commonly provided by text preprocessors, like inclusion of files or macro expansion, are not supported.</p>
+<p>Ant provides the jpp task with properties that control the preprocessing of the files. Using conditional directives parts of the text file can be excluded in the resulting file.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>#if [!]propertyName [# ... optional inline comment ...]
+    ...text 1...
 [#else
-	...text 2...]
-#endif
-</pre>
-	<p>
-		<em>('[ ... ]' encloses optional parts).</em>
-	</p>
-	<h2>Preprocessing</h2>
-	<p>jpp analyses a file's text line-by-line and writes the result to
-		the destination file.</p>
-	<p>Here the details of the preprocessing:</p>
-	<ul>
-		<li>When the <code>#if</code> condition is true the lines
-			following the <code>#if</code> (i.e. "<code>...text 1...</code>") are
-			copied to the destination file, otherwise the lines following the <code>#else</code>
-			(i.e. "<code>...text 2...</code>") are copied.
-		</li>
-		<li>All lines containing a jpp directive (<code>#if</code>, <code>#else</code>,
-			<code>#endif</code>) are removed.
-		</li>
-		<li>All lines outside an <code>#if...#endif</code> block are
-			copied to the destination file.
-		</li>
-		<li><code>#if</code> ... <code>#endif</code> blocks can be
-			nested, i.e. they can appear in the "if" and "else" areas of an outer
-			<code>#if</code> ... <code>#endif</code> block.</li>
-	</ul>
-	<p>
-		An
-		<code>#if</code>
-		condition is true if either
-	</p>
-	<ul>
-		<li>a single name is specified (e.g. "<code>#if FOO</code>") and
-			the property with that name holds the value <code>true</code>, or
-		</li>
-		<li>a negate operator <code>!</code> and a name is given (e.g. "<code>#if
-				!FOO</code>") and no property with that name is defined or the property
-			does not hold the value <code>true</code>.
-		</li>
-	</ul>
-	<h2>Using jpp directives in Java source files</h2>
-	<p>When using jpp directives in Java source files the directives
-		must be included in Java comments to avoid compile errors.</p>
-	<p>You may either use single line comments, e.g. as in:</p>
-	<pre>
-//#if FOO
-	... regular Java text
-//#endif
-</pre>
-	or block comments like:
-	<pre>
-/*#if FOO
-	... text in comment ...
-#endif*/
-</pre>
-	<p>When using the block comment approach the text inside the
-		directive block will not be compiled in the original file. However
-		when the condition is satisfied the resulting file will contain the
-		text without the wrapping comment, i.e. it will be compiled.
-	<h2>Examples</h2>
-	<pre>
-/*#if FOO
-	... text in comment ...
+    ...text 2...]
+#endif</code></pre>
+<p><em>(&#8217;[ &#8230; ]&#8217; encloses optional parts).</em></p>
+<h2 id="preprocessing">Preprocessing</h2>
+<p>jpp analyses a file&#8217;s text line-by-line and writes the result to the destination file.</p>
+<p>Here the details of the preprocessing:</p>
+<ul>
+<li>When the <code>#if</code> condition is true the lines following the <code>#if</code> (i.e. &#8220;<code>...text 1...</code>&#8221;) are copied to the destination file, otherwise the lines following the <code>#else</code> (i.e. &#8220;<code>...text 2...</code>&#8221;) are copied.</li>
+<li>All lines containing a jpp directive (<code>#if</code>, <code>#else</code>, <code>#endif</code>) are removed.</li>
+<li>All lines outside an <code>#if...#endif</code> block are copied to the destination file.</li>
+<li><code>#if</code> &#8230; <code>#endif</code> blocks can be nested, i.e.&#160;they can appear in the &#8220;if&#8221; and &#8220;else&#8221; areas of an outer <code>#if</code> &#8230; <code>#endif</code> block.</li>
+</ul>
+<p>An <code>#if</code> condition is true if either</p>
+<ul>
+<li>a single name is specified (e.g. &#8220;<code>#if FOO</code>&#8221;) and the property with that name holds the value <code>true</code>, or</li>
+<li>a negate operator <code>!</code> and a name is given (e.g. &#8220;<code>#if !FOO</code>&#8221;) and no property with that name is defined or the property does not hold the value <code>true</code>.</li>
+</ul>
+<h2 id="using-jpp-directives-in-java-source-files">Using jpp directives in Java source files</h2>
+<p>When using jpp directives in Java source files the directives must be included in Java comments to avoid compile errors.</p>
+<p>You may either use single line comments, e.g.&#160;as in:</p>
+<pre><code>//#if FOO
+    ... regular Java text
+//#endif</code></pre>
+<p>or block comments like:</p>
+<pre><code>/*#if FOO
+    ... text in comment ...
+#endif*/</code></pre>
+<p>When using the block comment approach the text inside the directive block will not be compiled in the original file. However when the condition is satisfied the resulting file will contain the text without the wrapping comment, i.e.&#160;it will be compiled.</p>
+<h2 id="examples">Examples</h2>
+<pre><code>/*#if FOO
+    ... text in comment ...
 #else*/
-	... text outside comment ...
+    ... text outside comment ...
 //#endif
-</pre>
-	<pre>
+
 //#if !FOO
 ... text to be excluded when FOO is true ...
-//#endif
-</pre>
-	<h2>Ant integration</h2>
-	<pre>
-&lt;project name="YourProjectName" ... &gt;
+//#endif</code></pre>
+<h2 id="ant-integration">Ant integration</h2>
+<pre><code>&lt;project name=&quot;YourProjectName&quot; ... &gt;
 
     &lt;!-- Register the jpp ant task --&gt;
-    &lt;taskdef resource="jpp.xml" classpath="lib/jpp/1.0.1/jpp-1.0.1.jar" /&gt;
+    &lt;taskdef resource=&quot;jpp.xml&quot; classpath=&quot;lib/jpp/1.0.3/jpp-1.0.3.jar&quot; /&gt;
     ...
     
     &lt;!-- defined properties to control the preprocessing --&gt;
-    &lt;property name="NO_FOO" value="true" /&gt;
-    &lt;property name="WITH_BLA" value="true" /&gt;
+    &lt;property name=&quot;NO_FOO&quot; value=&quot;true&quot; /&gt;
+    &lt;property name=&quot;WITH_BLA&quot; value=&quot;true&quot; /&gt;
     ...
     
     &lt;!-- call the jpp tool inside a target --&gt;
-    &lt;target name="preprocess"&gt;
-        &lt;jpp destdir="src-gen" readonly="true" verbose="false"&gt;
-            &lt;fileset dir="src/" includes="**/*.java" excludesfile="config/excludes.txt" /&gt;
-            &lt;fileset dir="src/" includesfile="config/includes.txt" /&gt;
+    &lt;target name=&quot;preprocess&quot;&gt;
+        &lt;jpp destdir=&quot;src-gen&quot; readonly=&quot;true&quot; verbose=&quot;false&quot;&gt;
+            &lt;fileset dir=&quot;src/&quot; includes=&quot;**/*.java&quot; excludesfile=&quot;config/excludes.txt&quot; /&gt;
+            &lt;fileset dir=&quot;src/&quot; includesfile=&quot;config/includes.txt&quot; /&gt;
         &lt;/jpp&gt;
     &lt;/target&gt;
     ...
         
-&lt;/project&gt;
-</pre>
-	<h2>License</h2>
-	jpp is distributed under a BSD license of
-	<a href="http://www.abego-software.de/index.html">abego Software</a>.
-	
-	<h2>Links</h2>
-	Sources: <a href="https://github.com/abego/jpp">https://github.com/abego/jpp</a>
+&lt;/project&gt;</code></pre>
+<h2 id="license">License</h2>
+<p>jpp is distributed under a BSD license of <a href="http://www.abego-software.de/index.html">abego Software</a>.</p>
+<h2 id="links">Links</h2>
+<p>Sources: <a href="https://github.com/abego/jpp">https://github.com/abego/jpp</a></p>
 </body>
 </html>

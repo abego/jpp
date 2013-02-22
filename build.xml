@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="jpp" default="build">
-	<property name="version" value="1.0.2" />
+	
+	<!-- read local build properties (see http://www.javaranch.com/ant/properties.jsp) -->
+	<property file="${user.home}/.config/abego.org/${ant.project.name}.properties" />
+	<property file="${user.home}/${ant.project.name}.properties" />
+	<property file="${user.home}/build.properties" />
+	<property file="config/${user.name}.properties"/>
+	
+
+	<property name="version" value="1.0.3" />
 	<property name="distdir" value="dist" />
 	<property name="builddir" value="build" />
 
 	<property name="classesdir" value="${builddir}/bin" />
 
+	<property name="pandoc-exists" value="true" />
+	<property name="pandoc" value="pandoc" />
+	<property name="readme.md" value="README.md" />
+	<property name="readme.html" value="README.html" />
+	
 	<path id="build.classpath">
 		<fileset dir="${ant.library.dir}" includes="*.jar" />
 	</path>
 
-	<target name="build">
+	<target name="build" depends="gen-doc">
 		<mkdir dir="${classesdir}" />
 
 		<javac srcdir="src/main/java" destdir="${classesdir}" source="1.6" target="1.6" classpathref="build.classpath" includeantruntime="false">
 			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:-options" />
 		</javac>
 
 		<jar destfile="${builddir}/jpp.jar">
@@ -30,6 +44,15 @@
 		<delete dir="${builddir}" />
 	</target>
 
+	<target name="gen-doc" if="${pandoc-exists}" depends="report-gen-doc-skipped">
+		<exec executable="${pandoc}">
+			<arg line="--standalone --ascii --smart --output ${readme.html} -V pagetitle='jpp - A Simple Java Preprocessor for Ant' -V highlighting-css='html {color: #333333; line-height: 1.5; font-family: Helvetica, arial, sans-serif;} pre {background-color: #f8f8f8;border: 1px solid #ddd;}' ${readme.md}" />
+		</exec>
+	</target>
+	<target name="report-gen-doc-skipped" unless="${pandoc-exists}">
+		<echo>${readme.html} was not be updated as ${pandoc} does not exist. ${readme.md} holds the most recent documentation.</echo>
+	</target>
+	
 	<target name="dist" depends="build">
 		<mkdir dir="${distdir}" />
 		

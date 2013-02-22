@@ -10,7 +10,7 @@ import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 
